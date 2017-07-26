@@ -6,19 +6,84 @@ class Index extends Component {
 
 	constructor(props){
 		super(props);
-		this.state = {message: ''}
+		this.state = {
+			backgroundOne: {photo: null, text: null, active: true}, 
+			backgroundTwo: {photo: null, text: null, active: false},
+			canClick: true
+		}
+	}
+	
+	componentDidMount(){
+		this.getResources((first) => {
+			this.getResources((second) => {
+				var backgroundOne = this.state.backgroundOne;
+				backgroundOne.photo = first.photo;
+				backgroundOne.text = first.text;
+				var backgroundTwo = this.state.backgroundTwo;
+				backgroundTwo.photo = second.photo;
+				backgroundTwo.text = second.text;
+				this.forceUpdate();
+			});
+		});
+	}
+	
+	getResources(cb){
+		this.request('/photo', (photoData) => {
+			this.request('/quote', (quoteData) => {
+				console.log(quoteData.quoteText);
+				cb({photo: photoData.photo, text: quoteData.quoteText});
+			});
+		});
+	}
+	
+	request(url, cb){
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "GET", url, false );
+		xmlHttp.send( null );
+		
+		var data = JSON.parse(xmlHttp.responseText);
+		
+		cb(data);
+	}
+	
+	clickFunction(){
+		if(this.state.canClick){
+			this.setState({canClick: false});
+			var backgroundOne = this.state.backgroundOne;
+			backgroundOne.active = !backgroundOne.active;
+			var backgroundTwo = this.state.backgroundTwo;
+			backgroundTwo.active = !backgroundTwo.active;
+			this.forceUpdate();
+			setTimeout( () => {
+				this.getResources( (data) => {
+					var background = null;
+					backgroundOne.active ? background = backgroundTwo : background = backgroundOne;
+					background.photo = data.photo;
+					background.text = data.text;
+					this.forceUpdate();
+					setTimeout(() => {
+						this.setState({canClick: true});
+						console.log(this.state);
+					}, 10);
+					
+				});
+			}, 10);
+		}
 	}
 
-	changeInput(e){
-		this.setState({message: e.target.value})
-	}
 
   render(){
+		var backgroundOneClass = `${this.state.backgroundOne.active ? 'active' : 'inactive'} background`;
+		var backgroundTwoClass = `${this.state.backgroundTwo.active ? 'active' : 'inactive'} background`;
     return (
-    	<div>
-    		<label>Message</label><br/>
-    		<input onChange={this.changeInput.bind(this)} value={this.state.message} />
-      	<h1>{this.state.message}</h1>
+			<div>
+				<div id='background' className={backgroundOneClass} style={{backgroundImage: `url(${this.state.backgroundOne.photo})`}} onClick={() => this.clickFunction()}>
+					<p id='text' className='text'>{this.state.backgroundOne.text}</p>
+				</div>
+
+				<div id='second_background' className={backgroundTwoClass} style={{backgroundImage: `url(${this.state.backgroundTwo.photo})`}} onClick={() => this.clickFunction()}>
+					<p id='second_text' className='text'>{this.state.backgroundTwo.text}</p>
+				</div>
       </div>
     );
   }
