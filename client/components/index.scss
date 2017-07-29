@@ -14,6 +14,7 @@ body{
   display: flex;
   justify-content: center;
   position: absolute;
+  right: 0%;
 }
 
 .text{
@@ -28,10 +29,12 @@ body{
 
 .active{
   right: 0%;
+  transition: all 1s ease;
 }
 
 .inactive{
   right: -100%;
+  transition: all 1s ease;
 }
 
 body{
