@@ -53,7 +53,7 @@ class Index extends Component {
 			var backgroundTwo = this.state.backgroundTwo;
 			backgroundTwo.active = !backgroundTwo.active;
 			this.forceUpdate();
-			setTimeout( () => {
+			setTimeout(() =>{
 				this.getResources( (data) => {
 					var background = null;
 					backgroundOne.active ? background = backgroundTwo : background = backgroundOne;
@@ -65,7 +65,9 @@ class Index extends Component {
 					}, 10);
 					
 				});
-			}, 10);
+			}, 1000)
+			
+			
 		}
 	}
 
