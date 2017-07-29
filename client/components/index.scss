@@ -30,11 +30,13 @@ body{
 .active{
   right: 0%;
   transition: all 1s ease;
+  z-index: 1;
 }
 
 .inactive{
   right: -100%;
-  transition: all 1s ease;
+  transition-delay: 1s;
+  z-index:
 }
 
 body{

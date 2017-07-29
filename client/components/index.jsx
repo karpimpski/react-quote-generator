@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
+const time = 1000;
 
 class Index extends Component {
 
@@ -62,10 +63,10 @@ class Index extends Component {
 					this.forceUpdate();
 					setTimeout(() => {
 						this.setState({canClick: true});
-					}, 10);
+					}, 1000);
 					
 				});
-			}, 1000)
+			}, this.props.time);
 			
 			
 		}
@@ -89,4 +90,4 @@ class Index extends Component {
   }
 }
 
-ReactDOM.render(<Index name='World'/>, document.getElementById('root'));
+ReactDOM.render(<Index time={time}/>, document.getElementById('root'));
