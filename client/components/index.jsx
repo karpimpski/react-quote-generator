@@ -30,7 +30,6 @@ class Index extends Component {
 	getResources(cb){
 		this.request('/photo', (photoData) => {
 			this.request('/quote', (quoteData) => {
-				console.log(quoteData.quoteText);
 				cb({photo: photoData.photo, text: quoteData.quoteText});
 			});
 		});
@@ -63,7 +62,6 @@ class Index extends Component {
 					this.forceUpdate();
 					setTimeout(() => {
 						this.setState({canClick: true});
-						console.log(this.state);
 					}, 10);
 					
 				});
