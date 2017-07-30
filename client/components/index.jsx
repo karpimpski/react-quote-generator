@@ -11,7 +11,8 @@ class Index extends Component {
 			backgroundOne: {photo: null, text: null, active: true}, 
 			backgroundTwo: {photo: null, text: null, active: false},
 			canClick: true,
-			loading: false
+			loading: false,
+			imageLoaded: false
 		}
 	}
 	
@@ -48,8 +49,8 @@ class Index extends Component {
 	}
 	
 	clickFunction(){
-		if(this.state.canClick){
-			this.setState({canClick: false, loading: true});
+		if(this.state.canClick && this.state.imageLoaded){
+			this.setState({canClick: false, loading: true, imageLoaded: false});
 			var backgroundOne = this.state.backgroundOne;
 			backgroundOne.active = !backgroundOne.active;
 			var backgroundTwo = this.state.backgroundTwo;
@@ -73,14 +74,19 @@ class Index extends Component {
 		}
 	}
 
+	onLoadFunction(){
+		this.setState({imageLoaded: true})
+	}
+
 
   render(){
 		var backgroundOneClass = `${this.state.backgroundOne.active ? 'active' : 'inactive'} background`;
 		var backgroundTwoClass = `${this.state.backgroundTwo.active ? 'active' : 'inactive'} background`;
-		var loading = `${this.state.loading ? 'loading' : ''}`;
+		var loading = `${(this.state.loading || !this.state.imageLoaded) ? 'loading' : ''}`;
     return (
 			<div>
 				<div id='background' className={backgroundOneClass} style={{backgroundImage: `url(${this.state.backgroundOne.photo})`}} onClick={() => this.clickFunction()}>
+				<img className='hidden_image' src={this.state.backgroundOne.photo} onLoad={() => this.onLoadFunction()}/>
 					<p id='text' className='text'>{this.state.backgroundOne.text}</p>
 					<div className={"spinner " + loading}>
 					  <div className={"double-bounce1 " + loading}></div>
@@ -89,6 +95,7 @@ class Index extends Component {
 				</div>
 
 				<div id='second_background' className={backgroundTwoClass} style={{backgroundImage: `url(${this.state.backgroundTwo.photo})`}} onClick={() => this.clickFunction()}>
+					<img className='hidden_image' src={this.state.backgroundTwo.photo} onLoad={() => this.onLoadFunction()}/>
 					<p id='second_text' className='text'>{this.state.backgroundTwo.text}</p>
 					<div className={"spinner " + loading}>
 					  <div className={"double-bounce1 " + loading}></div>
