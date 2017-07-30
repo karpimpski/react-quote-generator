@@ -1,5 +1,7 @@
 body{
   overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 .background{
@@ -14,6 +16,7 @@ body{
   display: flex;
   justify-content: center;
   position: absolute;
+  will-change: auto;
   right: 0%;
 }
 
@@ -28,23 +31,21 @@ body{
 }
 
 .active{
-  right: 0%;
+  transform: translate(0%);
+  will-change: auto;
   transition: all 1s ease;
   z-index: 1;
 }
 
 .inactive{
+  transform: translate(100%);
   right: -100%;
+  will-change: auto;
   transition-delay: 1s;
   z-index: -1;
 }
 
-body{
-  padding: 0;
-  margin: 0;
-}
-
-.spinner.loading{
+.active .spinner.loading{
   opacity: 1;
 }
 
@@ -72,27 +73,23 @@ body{
   position: absolute;
   top: 0;
   left: 0;
-  
-  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+
   animation: sk-bounce 2.0s infinite ease-in-out;
 }
 
 .double-bounce2 {
-  -webkit-animation-delay: -1.0s;
   animation-delay: -1.0s;
 }
 
 @-webkit-keyframes sk-bounce {
-  0%, 100% { -webkit-transform: scale(0.0) }
-  50% { -webkit-transform: scale(1.0) }
+  0%, 100% { transform: scale(0.0) }
+  50% { transform: scale(1.0) }
 }
 
 @keyframes sk-bounce {
   0%, 100% { 
     transform: scale(0.0);
-    -webkit-transform: scale(0.0);
   } 50% { 
     transform: scale(1.0);
-    -webkit-transform: scale(1.0);
   }
 }
