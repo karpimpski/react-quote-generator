@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-const time = 1000;
+const time = 1500;
 
 class Index extends Component {
 
